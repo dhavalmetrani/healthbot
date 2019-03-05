@@ -11,7 +11,7 @@ Healthbot helps you with health related things.
 ## Setup
 Set the following environment variables:
 ```
-HEALTHBOT_SLACK_TOKEN=xoxb-xxxx""
+HEALTHBOT_SLACK_TOKEN="xoxb-xxxx"
 ```
 
 ## Run locally

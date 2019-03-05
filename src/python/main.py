@@ -12,8 +12,8 @@ def main():
   if len(sys.argv) <= 1:
     print("Need a text to process.")
     sys.exit(1)
-  input_string = sys.argv[1:]
-  print(input_string)
+  input_string = " ".join(sys.argv[1:])
+  print("Input string: " + input_string)
 
 
 if __name__ == '__main__':
