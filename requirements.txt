@@ -1,0 +1,8 @@
+requests
+datetime
+python-dateutil
+json_logging
+slackclient
+redis
+
+pylint
