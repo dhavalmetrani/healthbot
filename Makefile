@@ -23,7 +23,11 @@ docker-login:              ## Login to docker public registry.
 
 docker-run:                ## Run the docker container.
 	$(MAKE) build
+	$(MAKE) docker-stop
 	@docker run --env HUBOT_SLACK_TOKEN=${HEALTHBOT_SLACK_TOKEN} $(CONATINER_NAME)
+
+docker-stop:               ## Stop the runnig container
+	@docker stop `docker ps -q --filter="ancestor=$(CONTAINER_NAME)"` || (echo "Container is not running $(CONTAINER_NAME)"; exit 0)
 
 docker-ps:                 ## Check the running containers.
 	docker ps
