@@ -1,6 +1,7 @@
 FROM node:8.15.0-alpine
 
 MAINTAINER Dhaval Metrani <dhavalmetrani@gmail.com>
+ARG SERVICE_USER=healthbot
 
 # Install pre-requisites.
 RUN apk update \
@@ -14,22 +15,22 @@ RUN apk update \
   && npm install -g hubot coffeescript yo generator-hubot
 
 # Create healthbot user
-RUN adduser -h /healthbot -s /bin/bash -S healthbot
-USER  healthbot
-WORKDIR /healthbot
+RUN adduser -h /${SERVICE_USER} -s /bin/bash -S ${SERVICE_USER}
+USER  ${SERVICE_USER}
+WORKDIR /${SERVICE_USER}
 
-COPY ./requirements.txt /healthbot/requirements.txt
+COPY ./requirements.txt /${SERVICE_USER}/requirements.txt
 RUN pip install -r requirements.txt --user
 
 # Install hubot
-RUN yo hubot --owner="Dhaval Metrani <dhavalmetrani@gmail.com>" --name="healthbot" \
+RUN yo hubot --owner="Dhaval Metrani <dhavalmetrani@gmail.com>" --name="${SERVICE_USER}" \
   --description="Healthbot for health related autmoations." --defaults \
    && npm install hubot-slack --save
 
-COPY ./bash /healthbot/bash
-COPY ./src /healthbot/src
-COPY ./external-scripts.json /healthbot/
-COPY ./scripts/healthbot.coffee /healthbot/scripts/
+COPY ./bash /${SERVICE_USER}/bash
+COPY ./src /${SERVICE_USER}/src
+COPY ./external-scripts.json /${SERVICE_USER}/
+COPY ./scripts/${SERVICE_USER}.coffee /${SERVICE_USER}/scripts/
 
 # And go
 CMD ["/bin/sh", "-c", "bin/hubot --adapter slack"]
