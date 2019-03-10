@@ -1,18 +1,19 @@
 CONATINER_NAME=healthbot
-CONTAINER_VERSION=`cat VERSION`
+VERSION_FILE=VERSION
+CONTAINER_VERSION=`cat $(VERSION_FILE)`
 DOCKER_REGISTRY_URL=docker.io
 
 help:                      ## Show this help.
 	@grep -h "##" $(MAKEFILE_LIST) | grep -v grep | tr -d '##' | tr -d '$$'
 
 release-patch:             ## Tag the release as a patch release and push tag to git.
-	./sem_ver.sh VERSION release-patch
+	./sem_ver.sh $(VERSION_FILE) release-patch
 
 release-minor:             ## Tag the release as a minor  releaseand push tag to git.
-	./sem_ver.sh VERSION release-minor
+	./sem_ver.sh $(VERSION_FILE) release-minor
 
 release-major:             ## Tag the release as a major release and push tag to git.
-	./sem_ver.sh VERSION release-major
+	./sem_ver.sh $(VERSION_FILE) release-major
 
 docker-build:              ## Build the docker container.
 	docker build -t $(CONATINER_NAME) .
@@ -22,7 +23,7 @@ docker-login:              ## Login to docker public registry.
 
 docker-run:                ## Run the docker container.
 	$(MAKE) build
-	@docker run --env HUBOT_SLACK_TOKEN=${HEALTHBOT_SLACK_TOKEN} $(CONATINER_NAME):$(CONTAINER_VERSION)
+	@docker run --env HUBOT_SLACK_TOKEN=${HEALTHBOT_SLACK_TOKEN} $(CONATINER_NAME)
 
 docker-ps:                 ## Check the running containers.
 	docker ps
