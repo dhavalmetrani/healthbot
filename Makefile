@@ -22,7 +22,7 @@ docker-login:              ## Login to docker public registry.
 	@docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD} $(DOCKER_REGISTRY_URL)
 
 docker-run:                ## Run the docker container.
-	$(MAKE) build
+	$(MAKE) docker-build
 	$(MAKE) docker-stop
 	@docker run --env HUBOT_SLACK_TOKEN=${HEALTHBOT_SLACK_TOKEN} $(CONATINER_NAME)
 
