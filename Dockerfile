@@ -19,13 +19,13 @@ RUN adduser -h /${SERVICE_USER} -s /bin/bash -S ${SERVICE_USER}
 USER  ${SERVICE_USER}
 WORKDIR /${SERVICE_USER}
 
-COPY ./requirements.txt /${SERVICE_USER}/requirements.txt
-RUN pip install -r requirements.txt --user
-
 # Install hubot
 RUN yo hubot --owner="Dhaval Metrani <dhavalmetrani@gmail.com>" --name="${SERVICE_USER}" \
   --description="Healthbot for health related autmoations." --defaults \
    && npm install hubot-slack --save
+
+COPY ./requirements.txt /${SERVICE_USER}/requirements.txt
+RUN pip install -r requirements.txt --user
 
 COPY ./bash /${SERVICE_USER}/bash
 COPY ./src /${SERVICE_USER}/src

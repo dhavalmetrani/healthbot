@@ -6,3 +6,5 @@ slackclient
 redis
 
 pylint
+
+boto3

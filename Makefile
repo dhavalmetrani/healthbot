@@ -26,8 +26,13 @@ docker-run:                ## Run the docker container.
 	$(MAKE) docker-stop
 	@docker run --env HUBOT_SLACK_TOKEN=${HEALTHBOT_SLACK_TOKEN} $(CONTAINER_NAME)
 
+docker-run-local:          ## Run the docker container locally with env vars for aws.
+	$(MAKE) docker-build
+	$(MAKE) docker-stop
+	@docker run --env AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} --env AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} --env HUBOT_SLACK_TOKEN=${HEALTHBOT_SLACK_TOKEN} $(CONTAINER_NAME)
+	
 docker-stop:               ## Stop the runnig container
-	@docker stop `docker ps -q --filter="ancestor=$(CONTAINER_NAME)"` || (echo "Container is not running $(CONTAINER_NAME)"; exit 0)
+	@docker stop `docker ps -q --filter="ancestor=$(CONTAINER_NAME)"` || (echo "Container not running: [ $(CONTAINER_NAME) ]"; exit 0)
 
 docker-run-daemon:         ## Run the docker container.
 	$(MAKE) docker-build
